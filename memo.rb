@@ -19,12 +19,18 @@ if memo_type == 1
   
 elsif memo_type == 2
   puts "編集したいファイル名を拡張子を除いて入力して下さい"
-  file_name = gets.chomp
+  begin 
+    file_name = gets.chomp
   puts "上書きしたい内容を記入してください"
   puts "完了したらctrl+Dを押します"
-  memo = STDIN.read
+    memo = STDIN.read
+  rescue
+    puts $!
+    puts "編集できませんでした。ファイル名を確認してください"
+  ensure exit
+  end
   
   CSV.open("#{file_name}.csv","r+") do |csv|
       csv<<[memo]
-  end
+    end
 end
